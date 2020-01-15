@@ -17,7 +17,8 @@
 
 <details>
  <summary>15-JAN-2020</summary>
- <p>Coming soon...</p>
+ * Done intial server setup
+ * Created mongoDB model for transaction
 </details>
 
 <details>
