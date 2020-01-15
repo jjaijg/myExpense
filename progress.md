@@ -17,8 +17,8 @@
 
 <details>
  <summary>15-JAN-2020</summary>
- * Done intial server setup
- * Created mongoDB model for transaction
+ <li>Done intial server setup</li>
+ <li>Created mongoDB model for transaction</li>
 </details>
 
 <details>
