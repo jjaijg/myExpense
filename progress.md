@@ -23,7 +23,7 @@
 
 <details>
  <summary>16-JAN-2020</summary>
- <p>Coming soon...</p>
+ <p>Added Navbar</p>
 </details>
 
 <details>
