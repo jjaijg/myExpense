@@ -28,7 +28,7 @@
 
 <details>
  <summary>17-JAN-2020</summary>
- <p>Coming soon...</p>
+ <p>Added Transactions Cards</p>
 </details>
 
 <details>
