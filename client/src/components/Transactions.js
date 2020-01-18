@@ -7,135 +7,61 @@ import {
   CardHeader,
   CardText,
   CardTitle,
-  CardDeck,
+  CardColumns,
   Container,
   Button,
   Badge,
   CardSubtitle
 } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import uuid from "uuid";
+import { connect } from "react-redux";
+import { getTransactions } from "../actions/transactionActions";
 
 export class Transactions extends Component {
-  state = {
-    transactions: [
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 100,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 100,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 200,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 300,
-        doneFor: "ghee",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 400,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 500,
-        doneFor: "veg",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 200,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 300,
-        doneFor: "ghee",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 400,
-        doneFor: "milk",
-        doneAt: new Date()
-      },
-      {
-        id: uuid(),
-        doneBy: uuid(),
-        expense: 500,
-        doneFor: "veg",
-        doneAt: new Date()
-      }
-    ]
-  };
+  componentDidMount() {
+    this.props.getTransactions();
+  }
+
   render() {
-    const { transactions } = this.state;
+    const { transactions } = this.props.transaction;
     return (
       <Container>
         <Button color="dark" className="sm mb-3">
           Add Transaction
         </Button>
-        <TransitionGroup className="transactions-effect">
-          <CardDeck>
-            {transactions.map(({ id, doneBy, doneFor, expense, doneAt }) => {
-              return (
-                <CSSTransition key={id} classNames="fade" timeout={500}>
-                  <Card
-                    className="mb-3 mr-3"
-                    key={id}
-                    outline
-                    color="secondary"
-                  >
-                    <CardBody>
-                      <CardTitle>
-                        <strong>Jai</strong>
-                        <Button close className="text-danger" />
-                        <CardText>
-                          <Badge color="light">{doneAt.toDateString()}</Badge>
-                        </CardText>
-                      </CardTitle>
-                      <hr></hr>
-                      <CardSubtitle className="mb-3">
-                        <h5>
-                          Rs. <Badge color="danger">{expense}</Badge>
-                        </h5>
-                      </CardSubtitle>
-                      <CardText>
-                        <Badge color="info">{doneFor}</Badge>
-                      </CardText>
-                    </CardBody>
-                  </Card>
-                </CSSTransition>
-              );
-            })}
-          </CardDeck>
-        </TransitionGroup>
+        <CardColumns>
+          {transactions.map(({ id, doneBy, doneFor, expense, doneAt }) => {
+            return (
+              <Card className="mb-3 mr-3" key={id} outline color="secondary">
+                <CardBody>
+                  <CardTitle>
+                    <strong>Jai</strong>
+                    <Button close className="text-danger" />
+                    <CardText>
+                      <Badge color="light">{doneAt.toDateString()}</Badge>
+                    </CardText>
+                  </CardTitle>
+                  <hr></hr>
+                  <CardSubtitle className="mb-3">
+                    <h5>
+                      Rs. <Badge color="danger">{expense}</Badge>
+                    </h5>
+                  </CardSubtitle>
+                  <CardText>
+                    <Badge color="info">{doneFor}</Badge>
+                  </CardText>
+                </CardBody>
+              </Card>
+            );
+          })}
+        </CardColumns>
       </Container>
     );
   }
 }
 
-export default Transactions;
+const mapStateToProps = state => ({
+  transaction: state.transaction
+});
+
+export default connect(mapStateToProps, { getTransactions })(Transactions);

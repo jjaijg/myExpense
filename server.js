@@ -18,7 +18,7 @@ const mongoUser = process.env.mongoUser || config.get("mongoUser");
 const mongoPw = process.env.mongoPw || config.get("mongoPw");
 const mongoURI = `mongodb+srv://${mongoUser}:${mongoPw}@mycluster-qckqe.mongodb.net/test?retryWrites=true&w=majority`;
 
-// Connect to DB
+// Connect to MongoDB
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
