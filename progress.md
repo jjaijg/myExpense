@@ -33,7 +33,8 @@
 
 <details>
  <summary>18-JAN-2020</summary>
- <p>Coming soon...</p>
+ <p>Integrated Redux</p>
+ <p>Updated Transactions component for get all transactions through redux</p>
 </details>
 
 <details>
