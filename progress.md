@@ -39,5 +39,26 @@
 
 <details>
  <summary>19-JAN-2020</summary>
+ <p>Added Transaction Modal to add new transaction details</p>
+ <p>Added add and delete reducers for transactions</p>
+</details>
+
+<details>
+ <summary>20-JAN-2020</summary>
+ <p>Coming soon...</p>
+</details>
+
+<details>
+ <summary>21-JAN-2020</summary>
+ <p>Coming soon...</p>
+</details>
+
+<details>
+ <summary>22-JAN-2020</summary>
+ <p>Coming soon...</p>
+</details>
+
+<details>
+ <summary>23-JAN-2020</summary>
  <p>Coming soon...</p>
 </details>
