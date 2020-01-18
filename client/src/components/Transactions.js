@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import {
   Card,
@@ -15,9 +16,18 @@ import {
 } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
-import { getTransactions } from "../actions/transactionActions";
+import {
+  getTransactions,
+  deleteTransaction
+} from "../actions/transactionActions";
 
 export class Transactions extends Component {
+  static propTypes = {
+    transaction: PropTypes.object.isRequired,
+    getTransactions: PropTypes.func.isRequired,
+    deleteTransaction: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.getTransactions();
   }
@@ -26,9 +36,6 @@ export class Transactions extends Component {
     const { transactions } = this.props.transaction;
     return (
       <Container>
-        <Button color="dark" className="sm mb-3">
-          Add Transaction
-        </Button>
         <CardColumns>
           {transactions.map(({ id, doneBy, doneFor, expense, doneAt }) => {
             return (
@@ -36,7 +43,11 @@ export class Transactions extends Component {
                 <CardBody>
                   <CardTitle>
                     <strong>Jai</strong>
-                    <Button close className="text-danger" />
+                    <Button
+                      close
+                      className="text-danger"
+                      onClick={() => this.props.deleteTransaction(id)}
+                    />
                     <CardText>
                       <Badge color="light">{doneAt.toDateString()}</Badge>
                     </CardText>
@@ -64,4 +75,6 @@ const mapStateToProps = state => ({
   transaction: state.transaction
 });
 
-export default connect(mapStateToProps, { getTransactions })(Transactions);
+export default connect(mapStateToProps, { getTransactions, deleteTransaction })(
+  Transactions
+);

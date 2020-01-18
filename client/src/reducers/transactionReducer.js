@@ -86,9 +86,17 @@ export default (state = initialState, action) => {
     case GET_TRANSACTIONS:
       return { ...state };
     case ADD_TRANSACTION:
-      return state;
+      return {
+        ...state,
+        transactions: [action.payload, ...state.transactions]
+      };
     case DELETE_TRANSACTION:
-      return state;
+      return {
+        ...state,
+        transactions: state.transactions.filter(
+          ({ id }) => id !== action.payload
+        )
+      };
     default:
       return state;
   }
