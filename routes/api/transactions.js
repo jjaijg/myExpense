@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const auth = require("../../middleware/auth");
 const mongoose = require("mongoose");
 
 // Transaction Model
@@ -18,11 +19,12 @@ router.get("/", (req, res) => {
 // @route   POST api/transactions
 // @desc    Create new Transaction
 // @access  Public
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   // get user id from req.user.id once auth is implemented
   const { doneFor, expense } = req.body;
+  const id = req.user ? req.user.id : mongoose.Types.ObjectId();
   const newTrans = new Transaction({
-    doneBy: req.user.id || mongoose.Types.ObjectId(),
+    doneBy: id,
     doneFor,
     expense
   });
@@ -33,12 +35,12 @@ router.post("/", (req, res) => {
 // @route   DELETE api/transactions/id
 // @desc    Delete a Transaction
 // @access  Public
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
+  const id = req.user ? req.user.id : mongoose.Types.ObjectId();
   // get user id from req.user.id once auth is implemented
-  Transaction.findOne({
-    doneBy: req.user.id || mongoose.Types.ObjectId(),
-    _id: req.params.id
-  })
+  //     doneBy: id || mongoose.Types.ObjectId(),
+
+  Transaction.findById(req.params.id)
     .then(trans => trans.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });

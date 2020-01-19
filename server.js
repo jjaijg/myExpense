@@ -6,6 +6,8 @@ const app = express();
 
 // Routes
 const transRoute = require("./routes/api/transactions");
+const userRoute = require("./routes/api/users");
+const authRoute = require("./routes/api/auth");
 
 // setup middleware for body parsing
 app.use(express.json());
@@ -22,13 +24,16 @@ const mongoURI = `mongodb+srv://${mongoUser}:${mongoPw}@mycluster-qckqe.mongodb.
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => console.log("MongoDB connected!!!"))
   .catch(err => console.log(err));
 
 // Routes for api
 app.use("/api/transactions", transRoute);
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 // Start server on port
 app.listen(port, () => console.log(`Server started on ${port}`));

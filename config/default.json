@@ -1,4 +1,5 @@
 {
   "mongoUser": "admin",
-  "mongoPw": "admin123"
+  "mongoPw": "admin123",
+  "jwtSecret": "myExpenseSecret"
 }
