@@ -37,19 +37,20 @@ export class Transactions extends Component {
     return (
       <Container>
         <CardColumns>
-          {transactions.map(({ id, doneBy, doneFor, expense, doneAt }) => {
+          {transactions.map(({ _id, doneBy, doneFor, expense, doneAt }) => {
+            const dd = new Date(doneAt);
             return (
-              <Card className="mb-3 mr-3" key={id} outline color="secondary">
+              <Card key={_id} className="mb-3 mr-3" outline color="secondary">
                 <CardBody>
                   <CardTitle>
                     <strong>Jai</strong>
                     <Button
                       close
                       className="text-danger"
-                      onClick={() => this.props.deleteTransaction(id)}
+                      onClick={() => this.props.deleteTransaction(_id)}
                     />
                     <CardText>
-                      <Badge color="light">{doneAt.toDateString()}</Badge>
+                      <Badge color="light">{dd.toDateString()}</Badge>
                     </CardText>
                   </CardTitle>
                   <hr></hr>

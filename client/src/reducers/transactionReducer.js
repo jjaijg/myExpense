@@ -3,88 +3,28 @@ import uuid from "uuid";
 import {
   GET_TRANSACTIONS,
   ADD_TRANSACTION,
-  DELETE_TRANSACTION
+  DELETE_TRANSACTION,
+  TRANSACTIONS_LOADING
 } from "../actions/types";
 
 const initialState = {
-  transactions: [
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 100,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 100,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 200,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 300,
-      doneFor: "ghee",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 400,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 500,
-      doneFor: "veg",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 200,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 300,
-      doneFor: "ghee",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 400,
-      doneFor: "milk",
-      doneAt: new Date()
-    },
-    {
-      id: uuid(),
-      doneBy: uuid(),
-      expense: 500,
-      doneFor: "veg",
-      doneAt: new Date()
-    }
-  ]
+  transactions: [],
+  loading: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case TRANSACTIONS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case GET_TRANSACTIONS:
-      return { ...state };
+      return {
+        ...state,
+        transactions: action.payload,
+        loading: false
+      };
     case ADD_TRANSACTION:
       return {
         ...state,
@@ -94,7 +34,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: state.transactions.filter(
-          ({ id }) => id !== action.payload
+          ({ _id }) => _id !== action.payload
         )
       };
     default:

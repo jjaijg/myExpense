@@ -43,10 +43,8 @@ export class TransactionModal extends Component {
   onSubmit = e => {
     e.preventDefault();
     const newTransaction = {
-      id: uuid(),
       expense: this.state.expense,
-      doneFor: this.state.doneFor,
-      doneAt: new Date()
+      doneFor: this.state.doneFor
     };
 
     // Add Transaction via reducer
