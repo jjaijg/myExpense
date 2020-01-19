@@ -41,6 +41,8 @@
  <summary>19-JAN-2020</summary>
  <p>Added Transaction Modal to add new transaction details</p>
  <p>Added add and delete reducers for transactions</p>
+ <p>Created new route for authentication</p>
+ <p>Created middleware for auth</p>
 </details>
 
 <details>
