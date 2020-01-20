@@ -25,8 +25,19 @@ export class TransactionModal extends Component {
   state = {
     modal: false,
     expense: "",
-    doneFor: ""
+    doneFor: "",
+    msg:''
   };
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+          msg: error.msg.msg
+      } else {
+        this.setState({ msg: null });
+      }
+    }
+  }
 
   toggle = () => {
     this.setState({
@@ -85,6 +96,7 @@ export class TransactionModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add to Expense</ModalHeader>
           <ModalBody>
+            {msg ? <Alert color="danger">{msg}</Alert> : null}
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="expense">Expense</Label>
