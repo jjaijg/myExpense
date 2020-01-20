@@ -1,5 +1,3 @@
-import uuid from "uuid";
-
 import {
   GET_TRANSACTIONS,
   ADD_TRANSACTION,

@@ -10,8 +10,8 @@ const Transaction = require("../../models/transactions");
 // @route   GET api/transactions
 // @desc    Get all Transaction
 // @access  Public
-router.get("/", (req, res) => {
-  Transaction.find()
+router.get("/", auth, (req, res) => {
+  Transaction.find({ doneBy: req.user.id })
     .sort({ doneAt: -1 })
     .then(transactions => res.json(transactions));
 });
