@@ -50,7 +50,6 @@ export const deleteTransaction = id => (dispatch, getState) => {
   axios
     .delete(`/api/transactions/${id}`, tokenConfig(getState))
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: DELETE_TRANSACTION,
         payload: id

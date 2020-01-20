@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Container } from "reactstrap";
 
-import { connect } from "react-redux";
 import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar";
@@ -44,7 +43,5 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  isLoading: state.auth.isLoading
-});
+
 export default App;
