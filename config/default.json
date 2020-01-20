@@ -1,5 +1,5 @@
 {
-  "mongoUser": "dummmy",
-  "mongoPw": "dummy",
+  "mongoUser": "",
+  "mongoPw": "",
   "jwtSecret": "myExpenseSecret"
 }

@@ -26,18 +26,8 @@ export class TransactionModal extends Component {
     modal: false,
     expense: "",
     doneFor: "",
-    msg:''
+    msg: ""
   };
-
-  componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error !== prevProps.error) {
-          msg: error.msg.msg
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-  }
 
   toggle = () => {
     this.setState({
@@ -53,16 +43,26 @@ export class TransactionModal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const newTransaction = {
-      expense: this.state.expense,
-      doneFor: this.state.doneFor
-    };
+    const { expense, doneFor } = this.state;
+    if (!expense || !doneFor) {
+      this.setState({
+        msg: "Enter all Fields"
+      });
+    } else {
+      this.setState({
+        msg: ""
+      });
+      const newTransaction = {
+        expense,
+        doneFor
+      };
 
-    // Add Transaction via reducer
-    this.props.addTransaction(newTransaction);
+      // Add Transaction via reducer
+      this.props.addTransaction(newTransaction);
 
-    // Close Modal
-    this.toggle();
+      // Close Modal
+      this.toggle();
+    }
   };
 
   validateExpense = evt => {
@@ -78,6 +78,7 @@ export class TransactionModal extends Component {
   };
 
   render() {
+    const { msg } = this.state;
     return (
       <div>
         {this.props.isAuthenticated ? (
