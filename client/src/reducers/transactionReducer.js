@@ -5,6 +5,8 @@ import {
   TRANSACTIONS_LOADING
 } from "../actions/types";
 
+import { compare } from "../helper";
+
 const initialState = {
   transactions: [],
   loading: false
@@ -26,7 +28,7 @@ export default (state = initialState, action) => {
     case ADD_TRANSACTION:
       return {
         ...state,
-        transactions: [action.payload, ...state.transactions]
+        transactions: [action.payload, ...state.transactions].sort(compare)
       };
     case DELETE_TRANSACTION:
       return {

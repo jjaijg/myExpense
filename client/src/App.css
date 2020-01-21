@@ -1,3 +1,7 @@
-.name{
-    text-transform:capitalize;
+.name {
+  text-transform: capitalize;
+}
+
+.react-datepicker-wrapper {
+  display: block !important;
 }

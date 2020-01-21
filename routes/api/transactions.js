@@ -21,15 +21,16 @@ router.get("/", auth, (req, res) => {
 // @access  Public
 router.post("/", auth, (req, res) => {
   // get user id from req.user.id once auth is implemented
-  const { doneFor, expense } = req.body;
-  if (!doneFor || !expense)
+  const { doneFor, expense, doneAt } = req.body;
+  if (!doneFor || !expense || !doneAt)
     return res.status(400).json({ msg: "Enter all Fields" });
 
   const id = req.user ? req.user.id : mongoose.Types.ObjectId();
   const newTrans = new Transaction({
     doneBy: id,
     doneFor,
-    expense
+    expense,
+    doneAt
   });
 
   newTrans.save().then(trans => res.json(trans));

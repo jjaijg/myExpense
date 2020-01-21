@@ -10,8 +10,12 @@ import {
   ModalBody,
   ModalHeader,
   Input,
-  Alert
+  Alert,
+  Container
 } from "reactstrap";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { connect } from "react-redux";
 import { addTransaction } from "../actions/transactionActions";
@@ -26,6 +30,7 @@ export class TransactionModal extends Component {
     modal: false,
     expense: "",
     doneFor: "",
+    doneAt: new Date(),
     msg: ""
   };
 
@@ -41,9 +46,15 @@ export class TransactionModal extends Component {
     });
   };
 
+  handleDate = date => {
+    this.setState({
+      doneAt: date
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
-    const { expense, doneFor } = this.state;
+    const { expense, doneFor, doneAt } = this.state;
     if (!expense || !doneFor) {
       this.setState({
         msg: "Enter all Fields"
@@ -54,7 +65,8 @@ export class TransactionModal extends Component {
       });
       const newTransaction = {
         expense,
-        doneFor
+        doneFor,
+        doneAt
       };
 
       // Add Transaction via reducer
@@ -117,6 +129,13 @@ export class TransactionModal extends Component {
                   placeholder="Enter Purpose"
                   value={this.state.doneFor}
                   onChange={this.validateDoneFor}
+                />
+
+                <Label for="doneAt">Done At</Label>
+                <DatePicker
+                  selected={this.state.doneAt}
+                  onChange={this.handleDate}
+                  className="datePicker form-control"
                 />
                 <Button color="dark" style={{ marginTop: "2rem" }} block>
                   Add Transaction

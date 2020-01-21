@@ -1,6 +1,6 @@
 {
   "name": "myexpense",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple Api using Express and Mongoose for myExpense app",
   "main": "server.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "config": "^3.2.4",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.7"
+    "mongoose": "^5.8.7",
+    "react-datepicker": "^2.11.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
