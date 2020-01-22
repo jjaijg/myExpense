@@ -1,14 +1,6 @@
 import React, { Component, Fragment } from "react";
 
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, Row, Col } from "reactstrap";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
