@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -10,7 +10,8 @@ import {
   ModalBody,
   ModalHeader,
   Input,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 
 import DatePicker from "react-datepicker";
@@ -22,7 +23,8 @@ import { addTransaction } from "../actions/transactionActions";
 export class TransactionModal extends Component {
   static propTypes = {
     addTransaction: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool,
+    loading: PropTypes.bool
   };
 
   state = {
@@ -136,8 +138,26 @@ export class TransactionModal extends Component {
                   onChange={this.handleDate}
                   className="datePicker form-control"
                 />
-                <Button color="dark" style={{ marginTop: "2rem" }} block>
-                  Add Transaction
+                <Button
+                  color="dark"
+                  style={{ marginTop: "2rem" }}
+                  block
+                  disabled={this.props.loading}
+                >
+                  {this.props.loading ? (
+                    <Fragment>
+                      {"Add Transaction "}
+                      <Spinner
+                        style={{
+                          width: "1.2rem",
+                          height: "1.2rem",
+                          marginLeft: "5px"
+                        }}
+                      />
+                    </Fragment>
+                  ) : (
+                    "Add Transaction"
+                  )}
                 </Button>
               </FormGroup>
             </Form>
@@ -148,6 +168,7 @@ export class TransactionModal extends Component {
   }
 }
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.transaction.loading
 });
 export default connect(mapStateToProps, { addTransaction })(TransactionModal);

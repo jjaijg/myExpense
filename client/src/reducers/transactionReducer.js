@@ -28,7 +28,8 @@ export default (state = initialState, action) => {
     case ADD_TRANSACTION:
       return {
         ...state,
-        transactions: [action.payload, ...state.transactions].sort(compare)
+        transactions: [action.payload, ...state.transactions].sort(compare),
+        loading: false
       };
     case DELETE_TRANSACTION:
       return {

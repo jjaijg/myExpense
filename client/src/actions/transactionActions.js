@@ -32,6 +32,8 @@ export const getTransactions = () => (dispatch, getState) => {
 };
 
 export const addTransaction = newTransaction => (dispatch, getState) => {
+  // Set transaction Loading
+  dispatch(setTransactionsLoading());
   // Add transactions
   axios
     .post("/api/transactions", newTransaction, tokenConfig(getState))
