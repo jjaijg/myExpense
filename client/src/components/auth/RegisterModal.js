@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import {
   Button,
@@ -10,7 +10,8 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 
 import PropTypes from "prop-types";
@@ -25,11 +26,13 @@ class RegisterModal extends Component {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     msg: null
   };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
+    isLoading: PropTypes.bool,
     error: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
@@ -53,15 +56,32 @@ class RegisterModal extends Component {
     e.preventDefault();
 
     // get details
-    const { name, email, password } = this.state;
-    // create new user obj
-    const newUser = {
-      name,
-      email,
-      password
-    };
-    // Atempt to register
-    this.props.register(newUser);
+    const { name, email, password, confirmPassword } = this.state;
+    // Check password
+    if (!name || !email || !password || !confirmPassword) {
+      // populate msg
+      this.setState({
+        msg: "Please enter all fields!!!"
+      });
+    } else if (password !== confirmPassword) {
+      // populate msg
+      this.setState({
+        msg: "Password Does not match"
+      });
+    } else {
+      // Reset error msg
+      this.setState({
+        msg: null
+      });
+      // create new user obj
+      const newUser = {
+        name,
+        email,
+        password
+      };
+      // Atempt to register
+      this.props.register(newUser);
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -124,8 +144,36 @@ class RegisterModal extends Component {
                   className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button color="dark" block style={{ marginTop: "2rem" }}>
-                  Register
+
+                <Label for="Confirm password">Confirm Password</Label>
+                <Input
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  className="mb-3"
+                  onChange={this.onChange}
+                />
+                <Button
+                  color="dark"
+                  block
+                  style={{ marginTop: "2rem" }}
+                  disabled={this.props.isLoading}
+                >
+                  {this.props.isLoading ? (
+                    <Fragment>
+                      {"Register "}
+                      <Spinner
+                        style={{
+                          width: "1.2rem",
+                          height: "1.2rem",
+                          marginLeft: "5px"
+                        }}
+                      />
+                    </Fragment>
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </FormGroup>
             </Form>
@@ -138,6 +186,7 @@ class RegisterModal extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading,
   error: state.error
 });
 
