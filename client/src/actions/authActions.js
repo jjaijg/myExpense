@@ -47,6 +47,11 @@ export const register = ({ name, email, password }) => dispatch => {
     email,
     password
   });
+  // User loading
+  dispatch({
+    type: USER_LOADING
+  });
+  // Call Api
   axios
     .post("/api/users", body, config)
     .then(res => {
@@ -54,6 +59,7 @@ export const register = ({ name, email, password }) => dispatch => {
         type: REGISTER_SUCCESS,
         payload: res.data
       });
+      dispatch(getTransactions());
     })
     .catch(err => {
       dispatch(
@@ -78,6 +84,11 @@ export const login = ({ email, password }) => dispatch => {
     email,
     password
   });
+  // User loading
+  dispatch({
+    type: USER_LOADING
+  });
+  // call api
   axios
     .post("/api/auth", body, config)
     .then(res => {

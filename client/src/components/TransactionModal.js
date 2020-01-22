@@ -10,8 +10,7 @@ import {
   ModalBody,
   ModalHeader,
   Input,
-  Alert,
-  Container
+  Alert
 } from "reactstrap";
 
 import DatePicker from "react-datepicker";

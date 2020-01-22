@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import {
   Button,
@@ -10,7 +10,8 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 
 import PropTypes from "prop-types";
@@ -29,6 +30,7 @@ class LoginModal extends Component {
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
+    isLoading: PropTypes.bool,
     error: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
@@ -83,6 +85,7 @@ class LoginModal extends Component {
 
   render() {
     const { msg } = this.state;
+
     return (
       <div>
         <NavLink href="#" onClick={this.toggle}>
@@ -113,8 +116,26 @@ class LoginModal extends Component {
                   className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button color="dark" block style={{ marginTop: "2rem" }}>
-                  Login
+                <Button
+                  color="dark"
+                  block
+                  style={{ marginTop: "2rem" }}
+                  disabled={this.props.isLoading}
+                >
+                  {this.props.isLoading ? (
+                    <Fragment>
+                      {"Login "}
+                      <Spinner
+                        style={{
+                          width: "1.2rem",
+                          height: "1.2rem",
+                          marginLeft: "3px"
+                        }}
+                      />
+                    </Fragment>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
               </FormGroup>
             </Form>
@@ -127,6 +148,7 @@ class LoginModal extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading,
   error: state.error
 });
 
