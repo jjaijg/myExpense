@@ -3,7 +3,9 @@ import {
   GET_TRANSACTIONS,
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
-  TRANSACTIONS_LOADING
+  TRANSACTIONS_LOADING,
+  CONFIRM_DELETE,
+  RESET_DELETE
 } from "../actions/types";
 
 import { tokenConfig } from "./authActions";
@@ -48,6 +50,16 @@ export const addTransaction = newTransaction => (dispatch, getState) => {
     );
 };
 
+export const confirmDelete = id => dispatch => {
+  dispatch({
+    type: CONFIRM_DELETE
+  });
+  dispatch(deleteTransaction(id));
+};
+export const resetDelete = () => ({
+  type: RESET_DELETE
+});
+
 export const deleteTransaction = id => (dispatch, getState) => {
   axios
     .delete(`/api/transactions/${id}`, tokenConfig(getState))
@@ -56,6 +68,7 @@ export const deleteTransaction = id => (dispatch, getState) => {
         type: DELETE_TRANSACTION,
         payload: id
       });
+      dispatch(resetDelete());
     })
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))

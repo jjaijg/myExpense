@@ -2,14 +2,17 @@ import {
   GET_TRANSACTIONS,
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
-  TRANSACTIONS_LOADING
+  TRANSACTIONS_LOADING,
+  CONFIRM_DELETE,
+  RESET_DELETE
 } from "../actions/types";
 
 import { compare } from "../helper";
 
 const initialState = {
   transactions: [],
-  loading: false
+  loading: false,
+  confirmDelete: false
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +33,16 @@ export default (state = initialState, action) => {
         ...state,
         transactions: [action.payload, ...state.transactions].sort(compare),
         loading: false
+      };
+    case CONFIRM_DELETE:
+      return {
+        ...state,
+        confirmDelete: true
+      };
+    case RESET_DELETE:
+      return {
+        ...state,
+        confirmDelete: false
       };
     case DELETE_TRANSACTION:
       return {

@@ -8,7 +8,6 @@ import {
   CardTitle,
   CardColumns,
   Container,
-  Button,
   Badge,
   CardSubtitle,
   Spinner
@@ -18,6 +17,8 @@ import {
   getTransactions,
   deleteTransaction
 } from "../actions/transactionActions";
+
+import DeleteConfirmModal from "./DeleteConfirmModal";
 
 export class Transactions extends Component {
   static propTypes = {
@@ -50,11 +51,7 @@ export class Transactions extends Component {
                   <CardBody>
                     <CardTitle>
                       <strong className="name">{this.props.user.name}</strong>
-                      <Button
-                        close
-                        className="text-danger"
-                        onClick={() => this.props.deleteTransaction(_id)}
-                      />
+                      <DeleteConfirmModal id={_id} />
                       <CardText>
                         <Badge color="light">{dd.toDateString()}</Badge>
                       </CardText>
