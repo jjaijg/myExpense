@@ -52,6 +52,9 @@ class AppNavbar extends Component {
         <NavItem>
           <LoginModal />
         </NavItem>
+        <NavItem>
+          <NavLink href="/verify">Verify</NavLink>
+        </NavItem>
       </Fragment>
     );
     return (
@@ -63,9 +66,6 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 {isAuthenticated ? authLink : guestLink}
-                <NavItem>
-                  <NavLink href="https://github.com/jjaijg">GitHub</NavLink>
-                </NavItem>
               </Nav>
             </Collapse>
           </Container>

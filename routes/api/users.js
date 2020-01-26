@@ -212,7 +212,9 @@ router.post("/resend", (req, res) => {
       .then(() => {
         // Send the email
         var transporter = nodemailer.createTransport({
-          service: "gmail",
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
           auth: {
             user: process.env.MAILGUN_ID,
             pass: process.env.MAILGUN_PW
