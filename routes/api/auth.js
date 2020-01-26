@@ -45,7 +45,8 @@ router.post("/", (req, res) => {
         return res.status(401).send({
           id: "LOGIN",
           success: false,
-          msg: "Your account has not been verified."
+          msg:
+            "Your account has not been verified. Please verify your account >>> Menu -> verify"
         });
 
       jwt.sign(
