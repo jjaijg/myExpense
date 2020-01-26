@@ -63,18 +63,19 @@ router.post("/", (req, res) => {
               .then(token => {
                 // Send Email
                 const transporter = nodemailer.createTransport({
-                  service: "gmail",
+                  host: "smtp.gmail.com",
+                  port: 465,
+                  secure: true,
                   auth: {
-                    user: process.env.MAILGUN_ID,
-                    pass: process.env.MAILGUN_PW
+                    user: process.env.GMAIL_ID,
+                    pass: process.env.GMAIL_PW
                   }
                 });
                 const mailOptions = {
-                  from: process.env.MAILGUN_ID,
+                  from: `no-reply <${process.env.GMAIL_ID}`,
                   to: user.email,
                   subject: "Account Verification Token",
-                  text: `Hello\n\nPlease verify your account by clicking the link: \nhttp://${"localhost:3000" ||
-                    req.headers.host}/verify/${token.token}`
+                  text: `Hello\n\nPlease verify your account by clicking the link: \nhttps://${req.headers.host}/verify/${token.token}`
                 };
                 transporter
                   .sendMail(mailOptions)
@@ -156,12 +157,12 @@ router.post("/confirmation/", (req, res) => {
             },
             process.env.JWTSECRET,
             { expiresIn: 3600 },
-            (err, token) => {
+            (err, jwtToken) => {
               if (err) throw err;
               res.json({
                 id: "CONFIRMATION",
                 success: true,
-                token,
+                token: jwtToken,
                 user: {
                   id: user.id,
                   name: user.name,
@@ -216,15 +217,15 @@ router.post("/resend", (req, res) => {
           port: 465,
           secure: true,
           auth: {
-            user: process.env.MAILGUN_ID,
-            pass: process.env.MAILGUN_PW
+            user: process.env.GMAIL_ID,
+            pass: process.env.GMAIL_PW
           }
         });
         var mailOptions = {
-          from: "no-reply@mytransaction.herokuapp.com",
+          from: `no-reply <${process.env.GMAIL_ID}`,
           to: user.email,
           subject: "Account Verification Token",
-          text: `Hello\n\nPlease verify your account by clicking the link: \nhttp://${req.headers.host}/verify/${token.token}`
+          text: `Hello\n\nPlease verify your account by clicking the link: \nhttps://${req.headers.host}/verify/${token.token}`
         };
         transporter
           .sendMail(mailOptions)
