@@ -9,13 +9,14 @@ import {
   Input,
   Label,
   Button,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import { verifyAccount, sendVerifyLink } from "../../actions/authActions";
 
 export class Verify extends Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool,
+    auth: PropTypes.func,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -30,7 +31,7 @@ export class Verify extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props.auth;
     if (isAuthenticated) {
       this.props.history.push("/");
     }
@@ -59,6 +60,26 @@ export class Verify extends Component {
     // const { msg } = this.state;
     const { confirmation } = this.props.match.params;
     const { msg: errMsg, success, id } = this.props.error;
+    const { isConfirming, isVerfying } = this.props.auth;
+    const button = (
+      <Button
+        color="dark"
+        block
+        style={{ marginTop: "2rem" }}
+        disabled={isConfirming || isVerfying}
+      >
+        {confirmation ? "Verify Email" : "Send verify link"}
+        {isConfirming || isVerfying ? (
+          <Spinner
+            style={{
+              width: "1.2rem",
+              height: "1.2rem",
+              marginLeft: "3px"
+            }}
+          />
+        ) : null}
+      </Button>
+    );
     const alert =
       success || id === "EMAIL_VERIFY_SENT" ? (
         <Alert color="success">{errMsg.msg}</Alert>
@@ -67,7 +88,6 @@ export class Verify extends Component {
       ) : null;
     return (
       <Container>
-        {/* {msg ? <Alert color="danger">{msg}</Alert> : null} */}
         {alert}
         <h4>Account Confirmation</h4>
         <Form onSubmit={this.onSubmit}>
@@ -86,9 +106,7 @@ export class Verify extends Component {
               onChange={this.onChange}
             />
 
-            <Button color="dark" block style={{ marginTop: "2rem" }}>
-              {confirmation ? "Verify Email" : "Send verify link"}
-            </Button>
+            {button}
           </FormGroup>
         </Form>
       </Container>
@@ -97,7 +115,7 @@ export class Verify extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
   error: state.error
 });
 

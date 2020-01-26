@@ -72,7 +72,7 @@ router.post("/", (req, res) => {
                   }
                 });
                 const mailOptions = {
-                  from: `no-reply <${process.env.GMAIL_ID}`,
+                  from: `no-reply <${process.env.GMAIL_ID}>`,
                   to: user.email,
                   subject: "Account Verification Token",
                   text: `Hello\n\nPlease verify your account by clicking the link: \nhttps://${req.headers.host}/verify/${token.token}`

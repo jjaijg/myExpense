@@ -10,7 +10,11 @@ import {
   REGISTER_SUCCESS,
   AUTH_ERROR,
   VERIFY_SUCCESS,
-  VERIFY_FAIL
+  VERIFY_FAIL,
+  CONFRIM_LOADING,
+  CONFIRM_SUCCESS,
+  CONFIRM_FAIL,
+  VERIFY_LOADING
 } from "./types";
 
 // CHECK TOKEN AND USER
@@ -86,9 +90,9 @@ export const verifyAccount = (email, token) => dispatch => {
     email,
     token
   };
-  // User loading
+  // BUFFER VERIFY WHILE PINGING SERVER
   dispatch({
-    type: USER_LOADING
+    type: VERIFY_LOADING
   });
   axios
     .post("/api/users/confirmation", body, config)
@@ -121,11 +125,18 @@ export const sendVerifyLink = (email, token) => dispatch => {
   const body = {
     email
   };
+  // BUFFER CONFIRM WHILE SENDING EMAIL
+  dispatch({
+    type: CONFRIM_LOADING
+  });
 
   axios
     .post("/api/users/resend", body, config)
     .then(res => {
       const { msg, status, success, id } = res.data;
+      dispatch({
+        type: CONFIRM_SUCCESS
+      });
       dispatch(returnErrors({ msg }, status, id, success));
     })
     .catch(err => {
@@ -137,7 +148,7 @@ export const sendVerifyLink = (email, token) => dispatch => {
         )
       );
       dispatch({
-        type: VERIFY_FAIL
+        type: CONFIRM_FAIL
       });
     });
 };
