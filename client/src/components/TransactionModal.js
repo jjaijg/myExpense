@@ -56,9 +56,15 @@ export class TransactionModal extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { expense, doneFor, doneAt } = this.state;
+    const today = new Date();
     if (!expense || !doneFor) {
       this.setState({
         msg: "Enter all Fields"
+      });
+    } else if (doneAt > today) {
+      this.setState({
+        doneAt: today,
+        msg: "Date should be less than today"
       });
     } else {
       this.setState({
@@ -107,7 +113,7 @@ export class TransactionModal extends Component {
             <h4 className="text-center">Please Login to Manage Expenses</h4>
           </Alert>
         )}
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal centered isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add to Expense</ModalHeader>
           <ModalBody>
             {msg ? <Alert color="danger">{msg}</Alert> : null}

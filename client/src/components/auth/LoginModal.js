@@ -91,7 +91,7 @@ class LoginModal extends Component {
         <NavLink href="#" onClick={this.toggle}>
           Login
         </NavLink>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal centered isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Login</ModalHeader>
           <ModalBody>
             {msg ? <Alert color="danger">{msg}</Alert> : null}

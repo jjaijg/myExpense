@@ -3,6 +3,7 @@ import { GET_ERRORS, CLEAR_ERRORS } from "../actions/types";
 const initialState = {
   msg: {},
   status: null,
+  success: null,
   id: null
 };
 
@@ -12,12 +13,14 @@ export default (state = initialState, action) => {
       return {
         msg: action.payload.msg,
         status: action.payload.status,
+        success: action.payload.success,
         id: action.payload.id
       };
     case CLEAR_ERRORS:
       return {
         msg: {},
         status: null,
+        success: null,
         id: null
       };
     default:

@@ -5,3 +5,17 @@
 .react-datepicker-wrapper {
   display: block !important;
 }
+
+.float-rb {
+  position: fixed;
+  left: 88vw;
+  bottom: 5vh;
+  z-index: 5;
+}
+
+.circle {
+  border-radius: 50%;
+}
+.fix-margin {
+  margin-bottom: 5rem;
+}

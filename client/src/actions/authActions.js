@@ -1,6 +1,5 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
-import { getTransactions } from "./transactionActions";
 import {
   USER_LOADED,
   USER_LOADING,
@@ -9,7 +8,9 @@ import {
   LOGIN_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  AUTH_ERROR
+  AUTH_ERROR,
+  VERIFY_SUCCESS,
+  VERIFY_FAIL
 } from "./types";
 
 // CHECK TOKEN AND USER
@@ -19,12 +20,13 @@ export const loadUser = () => (dispatch, getState) => {
   const headerConfig = tokenConfig(getState);
   axios
     .get("/api/auth/user", headerConfig)
-    .then(res =>
+    .then(res => {
+      const { user } = res.data;
       dispatch({
         type: USER_LOADED,
-        payload: res.data
-      })
-    )
+        payload: user
+      });
+    })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -55,11 +57,11 @@ export const register = ({ name, email, password }) => dispatch => {
   axios
     .post("/api/users", body, config)
     .then(res => {
+      const { status, success, id } = res.data;
       dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
+        type: REGISTER_SUCCESS
       });
-      dispatch(getTransactions());
+      dispatch(returnErrors(res.data, status, id, success));
     })
     .catch(err => {
       dispatch(
@@ -67,6 +69,75 @@ export const register = ({ name, email, password }) => dispatch => {
       );
       dispatch({
         type: REGISTER_FAIL
+      });
+    });
+};
+
+// VERIFY USER
+export const verifyAccount = (email, token) => dispatch => {
+  // CONFIG HEADERS
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+  // CREATE COFIRM OBJECT
+  const body = {
+    email,
+    token
+  };
+  // User loading
+  dispatch({
+    type: USER_LOADING
+  });
+  axios
+    .post("/api/users/confirmation", body, config)
+    .then(res => {
+      const { token, user } = res.data;
+      dispatch({
+        type: VERIFY_SUCCESS,
+        payload: { token, user }
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "VERIFY_FAIL")
+      );
+      dispatch({
+        type: VERIFY_FAIL
+      });
+    });
+};
+
+// RESEND VERIFY LINK
+export const sendVerifyLink = (email, token) => dispatch => {
+  // CONFIG HEADERS
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+  // CREATE COFIRM OBJECT
+  const body = {
+    email
+  };
+
+  axios
+    .post("/api/users/resend", body, config)
+    .then(res => {
+      const { msg, status, success, id } = res.data;
+      dispatch(returnErrors({ msg }, status, id, success));
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "EMAIL_VERIFY_FAIL"
+        )
+      );
+      dispatch({
+        type: VERIFY_FAIL
       });
     });
 };
@@ -96,7 +167,6 @@ export const login = ({ email, password }) => dispatch => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      dispatch(getTransactions());
     })
     .catch(err => {
       dispatch(

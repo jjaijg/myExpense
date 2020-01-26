@@ -84,26 +84,13 @@ class RegisterModal extends Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    const { error, isAuthenticated } = this.props;
-    if (error !== prevProps.error) {
-      if (error.id === "REGISTER_FAIL") {
-        this.setState({
-          msg: error.msg.msg
-        });
-      } else {
-        this.setState({ msg: null });
-      }
-    }
-
-    // if authenticated close the modal
-    if (this.state.modal && isAuthenticated) {
-      this.toggle();
-    }
-  }
-
   render() {
-    const { msg } = this.state;
+    const { msg, success } = this.props.error;
+    const alert = success ? (
+      <Alert color="success">{msg.msg}</Alert>
+    ) : msg.msg ? (
+      <Alert color="danger">{msg.msg}</Alert>
+    ) : null;
     return (
       <div>
         <NavLink href="#" onClick={this.toggle}>
@@ -112,7 +99,7 @@ class RegisterModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
           <ModalBody>
-            {msg ? <Alert color="danger">{msg}</Alert> : null}
+            {alert}
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="name">Name</Label>

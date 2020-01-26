@@ -25,7 +25,7 @@ export const getTransactions = () => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: GET_TRANSACTIONS,
-        payload: res.data
+        payload: res.data.data
       })
     )
     .catch(err =>
@@ -42,7 +42,7 @@ export const addTransaction = newTransaction => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: ADD_TRANSACTION,
-        payload: res.data
+        payload: res.data.data
       })
     )
     .catch(err =>

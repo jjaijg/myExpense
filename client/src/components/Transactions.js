@@ -30,7 +30,10 @@ export class Transactions extends Component {
   };
 
   componentDidMount() {
-    this.props.getTransactions();
+    if (this.props.isAuthenticated) this.props.getTransactions();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps === this.props) this.props.getTransactions();
   }
 
   render() {

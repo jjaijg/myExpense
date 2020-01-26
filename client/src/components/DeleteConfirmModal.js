@@ -26,7 +26,7 @@ class DeleteConfirmModal extends Component {
     return (
       <Fragment>
         <Button close className="text-danger" onClick={this.toggle} />
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal centered isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Confirm Delete</ModalHeader>
           <ModalBody>
             <h5 className="text-center">
