@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("config");
+require("dotenv").config();
 const path = require("path");
 
 const app = express();
@@ -17,8 +17,8 @@ app.use(express.json());
 
 // setup for db connection and server
 const port = process.env.PORT || 5000;
-const mongoUser = process.env.mongoUser || config.get("mongoUser");
-const mongoPw = process.env.mongoPw || config.get("mongoPw");
+const mongoUser = process.env.mongoUser;
+const mongoPw = process.env.mongoPw;
 const mongoURI = `mongodb+srv://${mongoUser}:${mongoPw}@mycluster-qckqe.mongodb.net/test?retryWrites=true&w=majority`;
 
 // Connect to MongoDB

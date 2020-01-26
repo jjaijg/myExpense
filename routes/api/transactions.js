@@ -13,7 +13,20 @@ const Transaction = require("../../models/transactions");
 router.get("/", auth, (req, res) => {
   Transaction.find({ doneBy: req.user.id })
     .sort({ doneAt: -1 })
-    .then(transactions => res.json(transactions));
+    .then(transactions =>
+      res.json({
+        id: "GET_TRANSACTIONS",
+        success: true,
+        data: transactions
+      })
+    )
+    .catch(err =>
+      res.status(500).json({
+        id: "GET_TRANSACTIONS",
+        success: false,
+        msg: "Unable to get transactions details. Try reloading page"
+      })
+    );
 });
 
 // @route   POST api/transactions
@@ -23,7 +36,11 @@ router.post("/", auth, (req, res) => {
   // get user id from req.user.id once auth is implemented
   const { doneFor, expense, doneAt } = req.body;
   if (!doneFor || !expense || !doneAt)
-    return res.status(400).json({ msg: "Enter all Fields" });
+    return res.status(400).json({
+      id: "ADD_TRANSACTION",
+      success: false,
+      msg: "Enter all Fields"
+    });
 
   const id = req.user ? req.user.id : mongoose.Types.ObjectId();
   const newTrans = new Transaction({
@@ -33,7 +50,22 @@ router.post("/", auth, (req, res) => {
     doneAt
   });
 
-  newTrans.save().then(trans => res.json(trans));
+  newTrans
+    .save()
+    .then(trans =>
+      res.json({
+        id: "ADD_TRANSACTION",
+        success: true,
+        data: trans
+      })
+    )
+    .catch(err =>
+      res.status(500).json({
+        id: "ADD_TRANSACTION",
+        success: false,
+        msg: "Unable to add transactions detail. Please check internet"
+      })
+    );
 });
 
 // @route   DELETE api/transactions/id
@@ -45,8 +77,22 @@ router.delete("/:id", auth, (req, res) => {
   //     doneBy: id || mongoose.Types.ObjectId(),
 
   Transaction.findById(req.params.id)
-    .then(trans => trans.remove().then(() => res.json({ success: true })))
-    .catch(err => res.status(404).json({ success: false }));
+    .then(trans =>
+      trans.remove().then(() =>
+        res.json({
+          id: "DELETE_TRANSACTION",
+          success: true,
+          msg: "Deleted successfully"
+        })
+      )
+    )
+    .catch(err =>
+      res.status(404).json({
+        id: "DELETE_TRANSACTION",
+        success: false,
+        msg: "Oops! Transaction not found"
+      })
+    );
 });
 
 module.exports = router;

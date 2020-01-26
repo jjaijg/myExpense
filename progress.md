@@ -57,7 +57,9 @@
 
 <details>
  <summary>22-JAN-2020</summary>
- <p>Coming soon...</p>
+ <p>Added Loader for loading</p>
+ <p>Added confirm password field for registration</p>
+ <p>Added confirm delete modal before deleting transaction</p>
 </details>
 
 <details>
