@@ -1,6 +1,6 @@
 {
   "name": "myexpense",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simple Api using Express and Mongoose for myExpense app",
   "main": "server.js",
   "scripts": {
