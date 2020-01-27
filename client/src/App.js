@@ -10,7 +10,7 @@ import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
-
+import Chart from './components/Chart'
 class App extends Component {
   static propTypes = {
     isLoading: PropTypes.bool
@@ -27,6 +27,7 @@ class App extends Component {
         <div className="App">
           <AppNavbar />
           <Home />
+          <Chart />
         </div>
       </Provider>
     );
