@@ -11,8 +11,7 @@ import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
-import Verify from "./components/auth/Verify";
-
+import Verify from "./components/Verify";
 import Chart from "./components/Chart";
 
 class App extends Component {
@@ -41,9 +40,13 @@ class App extends Component {
               path="/verify/:confirmation?"
               isAuthenticated={isAuthenticated}
             />
+            <PrivateRoute
+              component={Chart}
+              path="/chart"
+              isAuthenticated={!isAuthenticated}
+            />
             <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
-          <Chart />
         </div>
       </Provider>
     );
