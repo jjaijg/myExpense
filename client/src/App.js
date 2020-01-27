@@ -13,6 +13,8 @@ import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
 import Verify from "./components/auth/Verify";
 
+import Chart from "./components/Chart";
+
 class App extends Component {
   static propTypes = {
     isLoading: PropTypes.bool
@@ -41,6 +43,7 @@ class App extends Component {
             />
             <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
+          <Chart />
         </div>
       </Provider>
     );
