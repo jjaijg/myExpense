@@ -22,8 +22,8 @@ export class Home extends Component {
               zIndex: "9999",
               width: "3rem",
               height: "3rem",
-              top: "48vh",
-              left: "48vw"
+              top: "47vh",
+              left: "47vw"
             }}
           />
         )}

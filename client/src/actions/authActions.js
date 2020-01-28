@@ -17,6 +17,11 @@ import {
   VERIFY_LOADING
 } from "./types";
 
+// CHECK AUTHENTICATED
+export const checkAuth = () => (dispatch, getState) => {
+  return getState().auth.isAuthenticated;
+};
+
 // CHECK TOKEN AND USER
 export const loadUser = () => (dispatch, getState) => {
   // User loading

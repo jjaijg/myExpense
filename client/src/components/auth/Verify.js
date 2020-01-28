@@ -16,7 +16,7 @@ import { verifyAccount, sendVerifyLink } from "../../actions/authActions";
 
 export class Verify extends Component {
   static propTypes = {
-    auth: PropTypes.func,
+    auth: PropTypes.object,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,

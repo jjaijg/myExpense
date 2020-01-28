@@ -9,22 +9,19 @@ import "./App.css";
 
 import { loadUser } from "./actions/authActions";
 
+import PrivateRoute from "./components/route/PrivateRoute";
 import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
-import Verify from "./components/Verify";
+import Verify from "./components/auth/Verify";
 import Chart from "./components/Chart";
 
 class App extends Component {
-  static propTypes = {
-    isLoading: PropTypes.bool
-  };
-
   componentDidMount() {
     store.dispatch(loadUser());
   }
 
   render() {
-    const { isAuthenticated } = store.getState().auth;
+    const { auth } = store.getState();
     return (
       <Provider store={store}>
         <div className="App">
@@ -34,34 +31,18 @@ class App extends Component {
             <Route path="/" exact>
               <Home />
             </Route>
+            <Route path="/verify">
+              <Verify />
+            </Route>
 
-            <PrivateRoute
-              component={Verify}
-              path="/verify/:confirmation?"
-              isAuthenticated={isAuthenticated}
-            />
-            <PrivateRoute
-              component={Chart}
-              path="/chart"
-              isAuthenticated={!isAuthenticated}
-            />
-            <Route render={() => <Redirect to={{ pathname: "/" }} />} />
+            {/* <PrivateRoute component={Verify} path="/verify/:confirmation?" /> */}
+            <PrivateRoute component={Chart} path="/chart" />
+            {/* <Route render={() => <Redirect to={{ pathname: "/" }} />} /> */}
           </Switch>
         </div>
       </Provider>
     );
   }
 }
-
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        !isAuthenticated ? <Component {...props} /> : <Redirect to="/" />
-      }
-    />
-  );
-};
 
 export default App;
