@@ -21,7 +21,6 @@ class App extends Component {
   }
 
   render() {
-    const { auth } = store.getState();
     return (
       <Provider store={store}>
         <div className="App">
@@ -35,9 +34,13 @@ class App extends Component {
               <Verify />
             </Route>
 
-            {/* <PrivateRoute component={Verify} path="/verify/:confirmation?" /> */}
+            <PrivateRoute
+              inverse
+              component={Verify}
+              path="/verify/:confirmation?"
+            />
             <PrivateRoute component={Chart} path="/chart" />
-            {/* <Route render={() => <Redirect to={{ pathname: "/" }} />} /> */}
+            <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
         </div>
       </Provider>
