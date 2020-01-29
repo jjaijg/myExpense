@@ -24,7 +24,7 @@ class Chart extends Component {
   render() {
     return (
       <Container>
-        <Line
+        <Pie
           data={this.state.chartData}
           options={{
             title: {
@@ -33,7 +33,7 @@ class Chart extends Component {
               fontSize: 25
             },
             legend: {
-              display: false,
+              display: true,
               position: "left"
             }
           }}
