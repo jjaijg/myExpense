@@ -1,37 +1,47 @@
-import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { loadUser } from "../../actions/authActions";
+import { Spinner } from "reactstrap";
 
-class PrivateRoute extends Component {
-  render() {
-    console.log(this.props);
-    let route = null;
-    const { path, component: Component, auth } = this.props;
-    const { isLoading, isAuthenticated, user } = auth;
-    console.log(auth);
-    if (isLoading) {
-      route = <h4>Loading data...</h4>;
-    } else if (isAuthenticated) {
-      route = (
-        <Route
-          paht={path}
-          render={props =>
-            isAuthenticated ? (
-              <Component />
-            ) : (
-              <Redirect to={{ pathname: "/" }} />
-            )
-          }
-        />
-      );
-    }
-    return route;
+const PrivateRoute = ({
+  inverse,
+  token,
+  isLoading,
+
+  component: Component,
+  ...rest
+}) => {
+  let route1 = null;
+  let route2 = null;
+  if (inverse) {
+    route1 = <Redirect to={{ pathname: "/" }} />;
+    route2 = <Route {...rest} render={props => <Component {...props} />} />;
+  } else {
+    route2 = <Redirect to={{ pathname: "/" }} />;
+    route1 = <Route {...rest} render={props => <Component {...props} />} />;
   }
-}
+
+  return isLoading ? (
+    <Spinner
+      style={{
+        position: "absolute",
+        zIndex: "9999",
+        width: "3rem",
+        height: "3rem",
+        top: "47vh",
+        left: "47vw"
+      }}
+    />
+  ) : token ? (
+    route1
+  ) : (
+    route2
+  );
+};
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  isLoading: state.auth.isLoading,
+  token: state.auth.token
 });
 
-export default connect(mapStateToProps, { loadUser })(PrivateRoute);
+export default connect(mapStateToProps, {})(PrivateRoute);
