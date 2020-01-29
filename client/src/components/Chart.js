@@ -1,38 +1,37 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Spinner, Container } from "reactstrap";
 import { Bar, Line, Pie, Doughnut } from "react-chartjs-2";
 
-export default class Chart extends Component {
+import { colorGenerator } from "../helper";
+import { byDoneFor } from "../helper/groupBy";
+import { getTransactions } from "../actions/transactionActions";
+class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: {
-        labels: ["Name1", "Name2", "Name3", "Name4", "Name5", "Name5"],
-        datasets: [
-          {
-            label: "Popular",
-            data: [100, 90, 85, 86, 75, 30],
-            backgroundColor: [
-              "deeppink",
-              "skyblue",
-              "lightgreen",
-              "yellow",
-              "orange",
-              "cyan"
-            ]
-          }
-        ]
-      }
+      chartData: {}
     };
+  }
+  componentDidMount() {
+    if (!this.props.transaction.transactions.length)
+      this.props.getTransactions();
+    const { transactions } = this.props.transaction;
+    const chart = byDoneFor(transactions);
+    const colors = colorGenerator(chart.len);
+    this.setState({
+      chartData: byDoneFor(transactions)
+    });
   }
   render() {
     return (
-      <div className="Chart">
+      <Container>
         <Line
           data={this.state.chartData}
           options={{
             title: {
               display: "true",
-              text: "My Popular List",
+              text: "Transactions based on Purpose",
               fontSize: 25
             },
             legend: {
@@ -41,7 +40,13 @@ export default class Chart extends Component {
             }
           }}
         />
-      </div>
+      </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  transaction: state.transaction
+});
+
+export default connect(mapStateToProps, { getTransactions })(Chart);
