@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Collapse,
@@ -38,6 +39,9 @@ class AppNavbar extends Component {
               {user ? `Welcome ${user.name}` : null}
             </strong>
           </span>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/chart">Chart</NavLink>
         </NavItem>
         <NavItem>
           <Logout />
