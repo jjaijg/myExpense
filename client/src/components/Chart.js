@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Spinner, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import { Bar, Line, Pie, Doughnut } from "react-chartjs-2";
 
 import { colorGenerator } from "../helper";
@@ -17,8 +17,6 @@ class Chart extends Component {
     if (!this.props.transaction.transactions.length)
       this.props.getTransactions();
     const { transactions } = this.props.transaction;
-    const chart = byDoneFor(transactions);
-    const colors = colorGenerator(chart.len);
     this.setState({
       chartData: byDoneFor(transactions)
     });
