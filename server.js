@@ -15,11 +15,14 @@ app.use(express.json());
 
 // mongodb+srv://admin:<password>@mycluster-qckqe.mongodb.net/test?retryWrites=true&w=majority --> Atlas (dev db)
 
+// mongodb://<dbuser>:<dbpassword>@ds263368.mlab.com:63368/myexpense --> mlab
+
 // setup for db connection and server
 const port = process.env.PORT || 5000;
 const mongoUser = process.env.mongoUser;
 const mongoPw = process.env.mongoPw;
 const mongoURI = `mongodb+srv://${mongoUser}:${mongoPw}@mycluster-qckqe.mongodb.net/test?retryWrites=true&w=majority`;
+// const mongoURI = `mongodb://${mongoUser}:${mongoPw}@ds263368.mlab.com:63368/myexpense`;
 
 // Connect to MongoDB
 mongoose

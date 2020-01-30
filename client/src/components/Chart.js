@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Container } from "reactstrap";
 import { Bar, Line, Pie, Doughnut } from "react-chartjs-2";
 
-import { colorGenerator } from "../helper";
 import { byDoneFor } from "../helper/groupBy";
 import { getTransactions } from "../actions/transactionActions";
 class Chart extends Component {

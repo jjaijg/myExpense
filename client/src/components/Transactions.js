@@ -47,26 +47,30 @@ export class Transactions extends Component {
         ) : null}
         {this.props.isAuthenticated ? (
           <CardColumns>
-            {transactions.map(({ _id, doneFor, expense, doneAt }) => {
+            {transactions.map(({ _id, doneFor, expense, doneAt, type }) => {
               const dd = new Date(doneAt);
+              const color = type === "c" ? "success" : "danger";
               return (
-                <Card key={_id} className="mb-3 mr-3" outline color="secondary">
+                <Card key={_id} className="mb-3 mr-3" outline color={color}>
                   <CardBody>
                     <CardTitle>
                       <strong className="name">{this.props.user.name}</strong>
                       <DeleteConfirmModal id={_id} />
                       <CardText>
                         <Badge color="light">{dd.toDateString()}</Badge>
+                        <Badge color="light" className="ml-1">
+                          {dd.toLocaleTimeString()}
+                        </Badge>
                       </CardText>
                     </CardTitle>
                     <hr></hr>
                     <CardSubtitle className="mb-3">
                       <h5>
-                        Rs. <Badge color="danger">{expense}</Badge>
+                        Rs. <Badge color={color}>{expense}</Badge>
                       </h5>
                     </CardSubtitle>
                     <CardText>
-                      <Badge color="info">{doneFor}</Badge>
+                      <Badge color="info">{doneFor.toUpperCase()}</Badge>
                     </CardText>
                   </CardBody>
                 </Card>

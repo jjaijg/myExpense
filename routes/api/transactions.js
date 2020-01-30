@@ -34,7 +34,7 @@ router.get("/", auth, (req, res) => {
 // @access  Public
 router.post("/", auth, (req, res) => {
   // get user id from req.user.id once auth is implemented
-  const { doneFor, expense, doneAt } = req.body;
+  const { doneFor, expense, doneAt, type } = req.body;
   if (!doneFor || !expense || !doneAt)
     return res.status(400).json({
       id: "ADD_TRANSACTION",
@@ -47,7 +47,8 @@ router.post("/", auth, (req, res) => {
     doneBy: id,
     doneFor,
     expense,
-    doneAt
+    doneAt,
+    type
   });
 
   newTrans
@@ -67,6 +68,15 @@ router.post("/", auth, (req, res) => {
       })
     );
 });
+
+// @route   POST api/transactions/updateAll
+// @desc    updates all ransactions - Dev use
+// @access  Public
+// router.get("/updateall", (req, res) => {
+//   Transaction.updateMany({}, { type: "d" }, { strict: false, upsert: true })
+//     .then(transactions => res.json(transactions))
+//     .catch(err => res.status(400).json(err));
+// });
 
 // @route   DELETE api/transactions/id
 // @desc    Delete a Transaction

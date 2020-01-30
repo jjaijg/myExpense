@@ -23,3 +23,15 @@ export const byDoneFor = arr => {
   console.log(chartData);
   return chartData;
 };
+
+export const byType = arr => {
+  const exp = {
+    spent: 0,
+    earned: 0
+  };
+  arr.map(trans => {
+    if (trans.type === "c") exp.earned += trans.expense;
+    else exp.spent += trans.expense;
+  });
+  return exp;
+};

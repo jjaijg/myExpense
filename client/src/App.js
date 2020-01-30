@@ -14,6 +14,7 @@ import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
 import Verify from "./components/auth/Verify";
 import Chart from "./components/Chart";
+import ExpenseDetails from "./components/ExpenseDetails";
 
 class App extends Component {
   componentDidMount() {
@@ -30,16 +31,12 @@ class App extends Component {
             <Route path="/" exact>
               <Home />
             </Route>
-            <Route path="/verify">
-              <Verify />
-            </Route>
-
             <PrivateRoute
               inverse
               component={Verify}
               path="/verify/:confirmation?"
             />
-            <PrivateRoute component={Chart} path="/chart" />
+            <PrivateRoute component={ExpenseDetails} path="/chart" />
             <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
         </div>

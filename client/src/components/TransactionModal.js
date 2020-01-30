@@ -11,7 +11,9 @@ import {
   ModalHeader,
   Input,
   Alert,
-  Spinner
+  Spinner,
+  Row,
+  Col
 } from "reactstrap";
 
 import DatePicker from "react-datepicker";
@@ -53,8 +55,28 @@ export class TransactionModal extends Component {
     });
   };
 
-  onSubmit = e => {
+  validateExpense = evt => {
+    let { name, value } = evt.target;
+    if (value === "" || value === "0" || !parseInt(value)) {
+      value = "";
+    }
+    this.onChange(name, value);
+  };
+  validateDoneFor = evt => {
+    let { name, value } = evt.target;
+    this.onChange(name, value);
+  };
+
+  addEarned = e => {
     e.preventDefault();
+    this.onSubmit("c");
+  };
+  addSpent = e => {
+    e.preventDefault();
+    this.onSubmit("d");
+  };
+
+  onSubmit = type => {
     const { expense, doneFor, doneAt } = this.state;
     const today = new Date();
     if (!expense || !doneFor) {
@@ -72,8 +94,9 @@ export class TransactionModal extends Component {
       });
       const newTransaction = {
         expense,
-        doneFor,
-        doneAt
+        doneFor: doneFor.trim(),
+        doneAt,
+        type
       };
 
       // Add Transaction via reducer
@@ -84,18 +107,6 @@ export class TransactionModal extends Component {
     }
   };
 
-  validateExpense = evt => {
-    let { name, value } = evt.target;
-    if (value === "" || value === "0" || !parseInt(value)) {
-      value = "";
-    }
-    this.onChange(name, value);
-  };
-  validateDoneFor = evt => {
-    let { name, value } = evt.target;
-    this.onChange(name, value);
-  };
-
   render() {
     const { msg } = this.state;
     return (
@@ -103,10 +114,17 @@ export class TransactionModal extends Component {
         {this.props.isAuthenticated ? (
           <Button
             color="dark"
-            style={{ marginBottom: "2rem" }}
+            style={{
+              marginBottom: "2rem",
+              fontSize: "1.5rem",
+              right: "2rem",
+              bottom: "2rem",
+              position: "fixed",
+              zIndex: "1"
+            }}
             onClick={this.toggle}
           >
-            Add Transaction
+            +
           </Button>
         ) : (
           <Alert color="info">
@@ -117,7 +135,7 @@ export class TransactionModal extends Component {
           <ModalHeader toggle={this.toggle}>Add to Expense</ModalHeader>
           <ModalBody>
             {msg ? <Alert color="danger">{msg}</Alert> : null}
-            <Form onSubmit={this.onSubmit}>
+            <Form>
               <FormGroup>
                 <Label for="expense">Expense</Label>
                 <Input
@@ -144,27 +162,56 @@ export class TransactionModal extends Component {
                   onChange={this.handleDate}
                   className="datePicker form-control"
                 />
-                <Button
-                  color="dark"
-                  style={{ marginTop: "2rem" }}
-                  block
-                  disabled={this.props.loading}
-                >
-                  {this.props.loading ? (
-                    <Fragment>
-                      {"Add Transaction "}
-                      <Spinner
-                        style={{
-                          width: "1.2rem",
-                          height: "1.2rem",
-                          marginLeft: "5px"
-                        }}
-                      />
-                    </Fragment>
-                  ) : (
-                    "Add Transaction"
-                  )}
-                </Button>
+                <Row>
+                  <Col>
+                    <Button
+                      color="dark"
+                      style={{ marginTop: "2rem" }}
+                      disabled={this.props.loading}
+                      block
+                      onClick={this.addEarned}
+                    >
+                      {this.props.loading ? (
+                        <Fragment>
+                          {"Earned "}
+                          <Spinner
+                            style={{
+                              width: "1.2rem",
+                              height: "1.2rem",
+                              marginLeft: "5px"
+                            }}
+                          />
+                        </Fragment>
+                      ) : (
+                        "Earned"
+                      )}
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      color="dark"
+                      style={{ marginTop: "2rem" }}
+                      disabled={this.props.loading}
+                      block
+                      onClick={this.addSpent}
+                    >
+                      {this.props.loading ? (
+                        <Fragment>
+                          {"Spent "}
+                          <Spinner
+                            style={{
+                              width: "1.2rem",
+                              height: "1.2rem",
+                              marginLeft: "5px"
+                            }}
+                          />
+                        </Fragment>
+                      ) : (
+                        "Spent"
+                      )}
+                    </Button>
+                  </Col>
+                </Row>
               </FormGroup>
             </Form>
           </ModalBody>
