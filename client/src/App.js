@@ -36,7 +36,7 @@ class App extends Component {
               component={Verify}
               path="/verify/:confirmation?"
             />
-            <PrivateRoute component={ExpenseDetails} path="/chart" />
+            <PrivateRoute component={ExpenseDetails} path="/myexpense" />
             <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
         </div>

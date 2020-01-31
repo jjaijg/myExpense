@@ -1,6 +1,5 @@
 import { colorGenerator } from "./index";
 export const byDoneFor = arr => {
-  console.log(arr);
   let grpBy = {};
   arr.map(({ expense, doneFor }) => {
     const donefor = doneFor.toLowerCase().trim();
@@ -21,7 +20,7 @@ export const byDoneFor = arr => {
     ]
   };
   console.log(chartData);
-  return chartData;
+  return grpBy;
 };
 
 export const byType = arr => {
