@@ -8,6 +8,7 @@ export const byDoneFor = arr => {
     } else {
       grpBy[donefor] = expense;
     }
+    return;
   });
   const chartData = {
     labels: Object.keys(grpBy),
@@ -19,7 +20,20 @@ export const byDoneFor = arr => {
       }
     ]
   };
-  console.log(chartData);
+  return grpBy;
+};
+
+export const byDoneAt = arr => {
+  let grpBy = {};
+  arr.map(trans => {
+    const doneAt = new Date(trans.doneAt).toDateString();
+    if (grpBy.hasOwnProperty(doneAt)) {
+      grpBy[doneAt].push(trans);
+    } else {
+      grpBy[doneAt] = [trans];
+    }
+    return;
+  });
   return grpBy;
 };
 
@@ -31,6 +45,7 @@ export const byType = arr => {
   arr.map(trans => {
     if (trans.type === "c") exp.earned += trans.expense;
     else exp.spent += trans.expense;
+    return;
   });
   return exp;
 };
