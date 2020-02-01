@@ -8,13 +8,14 @@ Simple MERN stack app to keep track of your day to day expenses
 - [x] User Login page
 - [x] Expesnse page
 - [x] View Transaction page
+- [x] While ading transaction, ask date also instead of picking current date
 - [x] Show total expense
 - [ ] Filter transactions based on month/year/category
 - [ ] Client side pagination
 
 ## Room for Improvement:
 
-- [ ] While ading transaction, ask date also instead of picking current date
+---
 
 ### Current Issue:
 
