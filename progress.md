@@ -63,6 +63,16 @@
 </details>
 
 <details>
- <summary>23-JAN-2020</summary>
- <p>Coming soon...</p>
+ <summary>01-FEB-2020</summary>
+ <h3>Features Included</h3>
+    <p>1. User Signup</p>
+    <p>2. Email verification</p>
+    <p>3. Login</p>
+    <p>4. Resend email verfication</p>
+    <p>5. Add Transaction based on purpose, amount and date</p>
+    <p>6. Delete transaction</p>
+    <p>7. Show overall Expense Details</p>
+    <p>8. Show Transactions based on purpose</p>
+    <p>9. Show Transactions based on type of expense</p>
+    <p>10. Show Transactions based on date</p>
 </details>
