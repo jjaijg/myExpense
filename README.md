@@ -26,10 +26,11 @@ None
 #### .env setup
 
 Create **.env** file in root folder with following variables
-**_mongoUser=<mlab or atlas or local db user name>_**
-**_mongoPW=<mlab or atlas or local db password>_**
-**_GAMIL_ID=<your gmail id or username from your email service provider>_**
-**_GAMIL_PW=<your gmail pw or api pw or key from your email service provider>_**
+
+<p><strong>mongoUser=[mlab or atlas or local db user name] </strong></p>
+<p><strong>mongoPW=[mlab or atlas or local db password]</strong></p>
+<p><strong>GAMIL_ID=[your gmail id or username from your email service provider]</strong></p>
+<p><strong>GAMIL_PW=[your gmail pw or api pw or key from your email service provider]</strong></p>
 
 #### Find inline comment in store.js to setup Redux dev tool for dev env
 
