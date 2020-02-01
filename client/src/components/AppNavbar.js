@@ -44,6 +44,9 @@ class AppNavbar extends Component {
           <NavLink href="/myexpense">My Expense</NavLink>
         </NavItem>
         <NavItem>
+          <NavLink href="/infuture">Coming Soon</NavLink>
+        </NavItem>
+        <NavItem>
           <Logout />
         </NavItem>
       </Fragment>

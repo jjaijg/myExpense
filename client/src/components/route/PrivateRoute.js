@@ -20,7 +20,6 @@ const PrivateRoute = ({
     route2 = <Redirect to={{ pathname: "/" }} />;
     route1 = <Route {...rest} render={props => <Component {...props} />} />;
   }
-  console.log(route1, route2);
 
   return isLoading ? (
     <Spinner

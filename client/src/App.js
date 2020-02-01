@@ -15,6 +15,7 @@ import Home from "./components/Home";
 import Verify from "./components/auth/Verify";
 import Chart from "./components/Chart";
 import ExpenseDetails from "./components/ExpenseDetails";
+import InFuture from "./components/InFuture";
 
 class App extends Component {
   componentDidMount() {
@@ -37,6 +38,7 @@ class App extends Component {
               path="/verify/:confirmation?"
             />
             <PrivateRoute component={ExpenseDetails} path="/myexpense" />
+            <PrivateRoute component={InFuture} path="/infuture" />
             <Route render={() => <Redirect to={{ pathname: "/" }} />} />
           </Switch>
         </div>

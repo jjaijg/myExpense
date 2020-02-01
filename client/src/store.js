@@ -11,7 +11,7 @@ const store = createStore(
   initialState,
   compose(applyMiddleware(...middleWare))
 );
-// Redux dev tool
+// Redux dev tool add it after compose function seperated by ,
 //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
 export default store;
