@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Container } from "reactstrap";
-import { Bar, Line, Pie, Doughnut } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 import { byDoneFor } from "../helper/groupBy";
 import { getTransactions } from "../actions/transactionActions";

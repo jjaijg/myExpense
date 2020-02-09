@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import {
@@ -24,8 +24,6 @@ class InFuture extends Component {
   }
 
   createDetails = arr => {
-    const exp = byType(arr);
-    const purposes = byDoneFor(arr);
     const byDates = byDoneAt(arr);
     return (
       <ListGroup style={{ cursor: "pointer" }}>

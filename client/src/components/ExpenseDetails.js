@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
-import DeleteConfirmModal from "./DeleteConfirmModal";
 import {
   Table,
   Container,
@@ -11,18 +10,11 @@ import {
   Badge,
   CardSubtitle,
   Row,
-  Col,
-  CardColumns,
-  ListGroup,
-  ListGroupItem,
-  UncontrolledCollapse
+  Col
 } from "reactstrap";
 
 import { byType, byDoneFor, byDoneAt } from "../helper/groupBy";
-import {
-  getTransactions,
-  deleteTransaction
-} from "../actions/transactionActions";
+import { getTransactions } from "../actions/transactionActions";
 
 class ExpenseDetails extends Component {
   componentDidMount() {
@@ -32,7 +24,6 @@ class ExpenseDetails extends Component {
   createDetails = arr => {
     const exp = byType(arr);
     const purposes = byDoneFor(arr);
-    const byDates = byDoneAt(arr);
     return (
       <Fragment>
         <Row className="ml-auto">
@@ -80,64 +71,6 @@ class ExpenseDetails extends Component {
             })}
           </tbody>
         </Table>
-        <ListGroup style={{ cursor: "pointer" }}>
-          {Object.entries(byDates).map((obj, ind) => {
-            const [date, transactions] = obj;
-            return (
-              <ListGroupItem key={date}>
-                <div id={`toggler${ind}`}>
-                  <h5>{date}</h5>
-                </div>
-                <UncontrolledCollapse toggler={`toggler${ind}`}>
-                  <CardColumns>
-                    {transactions.map(
-                      ({ _id, doneFor, expense, doneAt, type }) => {
-                        const d = new Date(doneAt);
-                        const color = type === "c" ? "success" : "danger";
-                        return (
-                          <Card
-                            key={_id}
-                            className="mb-3 mr-3"
-                            outline
-                            color={color}
-                          >
-                            <CardBody>
-                              <CardTitle>
-                                <strong className="name">
-                                  {this.props.user.name}
-                                </strong>
-                                <DeleteConfirmModal id={_id} />
-                                <CardText>
-                                  <Badge color="light">
-                                    {d.toDateString()}
-                                  </Badge>
-                                  <Badge color="light" className="ml-1">
-                                    {d.toLocaleTimeString()}
-                                  </Badge>
-                                </CardText>
-                              </CardTitle>
-                              <hr></hr>
-                              <CardSubtitle className="mb-3">
-                                <h5>
-                                  Rs. <Badge color={color}>{expense}</Badge>
-                                </h5>
-                              </CardSubtitle>
-                              <CardText>
-                                <Badge color="info">
-                                  {doneFor.toUpperCase()}
-                                </Badge>
-                              </CardText>
-                            </CardBody>
-                          </Card>
-                        );
-                      }
-                    )}
-                  </CardColumns>
-                </UncontrolledCollapse>
-              </ListGroupItem>
-            );
-          })}
-        </ListGroup>
       </Fragment>
     );
   };
