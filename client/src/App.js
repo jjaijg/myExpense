@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import store from "./store";
@@ -13,7 +12,7 @@ import PrivateRoute from "./components/route/PrivateRoute";
 import AppNavbar from "./components/AppNavbar";
 import Home from "./components/Home";
 import Verify from "./components/auth/Verify";
-import Chart from "./components/Chart";
+// import Chart from "./components/Chart";
 import ExpenseDetails from "./components/ExpenseDetails";
 import InFuture from "./components/InFuture";
 

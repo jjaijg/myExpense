@@ -1,6 +1,7 @@
 import {
   GET_TRANSACTIONS,
   ADD_TRANSACTION,
+  FILTER_TRANSACTIONS,
   DELETE_TRANSACTION,
   TRANSACTIONS_LOADING,
   CONFIRM_DELETE,
@@ -11,6 +12,7 @@ import { compare } from "../helper";
 
 const initialState = {
   transactions: [],
+  filteredTransactions: [],
   loading: false,
   confirmDelete: false
 };
@@ -26,6 +28,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: action.payload,
+        loading: false
+      };
+    case FILTER_TRANSACTIONS:
+      return {
+        ...state,
+        filteredTransactions: action.payload,
         loading: false
       };
     case ADD_TRANSACTION:

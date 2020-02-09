@@ -132,17 +132,17 @@ export class TransactionModal extends Component {
           </Alert>
         )}
         <Modal centered isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add to Expense</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add to Transactions</ModalHeader>
           <ModalBody>
             {msg ? <Alert color="danger">{msg}</Alert> : null}
             <Form>
               <FormGroup>
-                <Label for="expense">Expense</Label>
+                <Label for="amount">Amount</Label>
                 <Input
                   type="text"
                   id="expense"
                   name="expense"
-                  placeholder="Enter Expense"
+                  placeholder="Enter Amount"
                   value={this.state.expense}
                   onChange={this.validateExpense}
                 />
@@ -165,7 +165,7 @@ export class TransactionModal extends Component {
                 <Row>
                   <Col>
                     <Button
-                      color="dark"
+                      color="success"
                       style={{ marginTop: "2rem" }}
                       disabled={this.props.loading}
                       block
@@ -189,7 +189,7 @@ export class TransactionModal extends Component {
                   </Col>
                   <Col>
                     <Button
-                      color="dark"
+                      color="danger"
                       style={{ marginTop: "2rem" }}
                       disabled={this.props.loading}
                       block

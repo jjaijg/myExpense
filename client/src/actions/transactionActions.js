@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_TRANSACTIONS,
+  FILTER_TRANSACTIONS,
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
   TRANSACTIONS_LOADING,
@@ -10,10 +11,19 @@ import {
 
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
+import { searchByPurpose } from "../helper/search";
 
 export const setTransactionsLoading = () => ({
   type: TRANSACTIONS_LOADING
 });
+
+export const filterTransactions = (transactions, searchKey) => dispatch => {
+  searchKey = searchKey.toLowerCase().trim();
+  dispatch({
+    type: FILTER_TRANSACTIONS,
+    payload: searchByPurpose(transactions, searchKey)
+  });
+};
 
 export const getTransactions = () => (dispatch, getState) => {
   // Make Transactions loading true

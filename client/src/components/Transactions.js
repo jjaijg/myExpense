@@ -1,26 +1,20 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
-import {
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  CardColumns,
-  Container,
-  Badge,
-  CardSubtitle,
-  Spinner
-} from "reactstrap";
+import { CardColumns, Container, Spinner, Input, FormGroup } from "reactstrap";
 import { connect } from "react-redux";
 import {
   getTransactions,
-  deleteTransaction
+  deleteTransaction,
+  filterTransactions
 } from "../actions/transactionActions";
 
-import DeleteConfirmModal from "./DeleteConfirmModal";
+import TransactionCard from "./TransactionCard";
 
 export class Transactions extends Component {
+  state = {
+    search: ""
+  };
   static propTypes = {
     transaction: PropTypes.object.isRequired,
     user: PropTypes.object,
@@ -33,50 +27,77 @@ export class Transactions extends Component {
     if (this.props.isAuthenticated) this.props.getTransactions();
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps === this.props) this.props.getTransactions();
+    if (prevProps === this.props) {
+      if (this.state === prevState) this.props.getTransactions();
+    }
   }
 
+  filterTrans = e => {
+    const { name, value } = e.target;
+    this.setState(
+      {
+        [name]: value
+      },
+      () => {
+        this.props.filterTransactions(
+          this.props.transaction.transactions,
+          this.state.search
+        );
+      }
+    );
+  };
+
   render() {
-    const { transactions, loading } = this.props.transaction;
+    const {
+      transactions,
+      filteredTransactions,
+      loading
+    } = this.props.transaction;
+    const { search } = this.state;
+    const Loader =
+      loading && this.props.isAuthenticated ? (
+        <Spinner style={{ width: "3rem", height: "3rem", marginLeft: "45%" }} />
+      ) : null;
+
+    let trans = filteredTransactions.length
+      ? filteredTransactions
+      : transactions;
+    const AllTransactions =
+      search && !filteredTransactions.length ? (
+        <h4>No Transactions matched ☹ !!! </h4>
+      ) : this.props.isAuthenticated ? (
+        <CardColumns>
+          {trans.map(({ _id, doneFor, expense, doneAt, type }) => {
+            const cardProps = {
+              _id,
+              dd: new Date(doneAt),
+              color: type === "c" ? "success" : "danger",
+              doneFor,
+              expense,
+              name: this.props.user.name
+            };
+            return <TransactionCard key={_id} {...cardProps} />;
+          })}
+        </CardColumns>
+      ) : null;
+
     return (
       <Container>
-        {loading && this.props.isAuthenticated ? (
-          <Spinner
-            style={{ width: "3rem", height: "3rem", marginLeft: "45%" }}
-          />
-        ) : null}
+        {Loader}
         {this.props.isAuthenticated ? (
-          <CardColumns>
-            {transactions.map(({ _id, doneFor, expense, doneAt, type }) => {
-              const dd = new Date(doneAt);
-              const color = type === "c" ? "success" : "danger";
-              return (
-                <Card key={_id} className="mb-3 mr-3" outline color={color}>
-                  <CardBody>
-                    <CardTitle>
-                      <strong className="name">{this.props.user.name}</strong>
-                      <DeleteConfirmModal id={_id} />
-                      <CardText>
-                        <Badge color="light">{dd.toDateString()}</Badge>
-                        <Badge color="light" className="ml-1">
-                          {dd.toLocaleTimeString()}
-                        </Badge>
-                      </CardText>
-                    </CardTitle>
-                    <hr></hr>
-                    <CardSubtitle className="mb-3">
-                      <h5>
-                        Rs. <Badge color={color}>{expense}</Badge>
-                      </h5>
-                    </CardSubtitle>
-                    <CardText>
-                      <Badge color="info">{doneFor.toUpperCase()}</Badge>
-                    </CardText>
-                  </CardBody>
-                </Card>
-              );
-            })}
-          </CardColumns>
+          <Fragment>
+            <FormGroup>
+              <Input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="Search by purpose / tag"
+                className="mb-3"
+                onChange={this.filterTrans}
+              />
+            </FormGroup>
+            {AllTransactions}
+          </Fragment>
         ) : null}
       </Container>
     );
@@ -89,6 +110,8 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getTransactions, deleteTransaction })(
-  Transactions
-);
+export default connect(mapStateToProps, {
+  getTransactions,
+  deleteTransaction,
+  filterTransactions
+})(Transactions);
