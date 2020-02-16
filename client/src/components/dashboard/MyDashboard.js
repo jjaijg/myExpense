@@ -52,6 +52,14 @@ const MyDashboard = ({ history, renderPersonal, renderPassword }) => {
               </CardBody>
             </Card>
           </Col>
+          <Col className="mb-2" onClick={() => history.push("/myexpense")}>
+            <Card align="center" inverse color="success">
+              <CardBody>
+                <FontAwesomeIcon icon="rupee-sign" size="3x" />
+                <CardText>My Expense</CardText>
+              </CardBody>
+            </Card>
+          </Col>
           <Col className="mb-2" onClick={() => renderPassword()}>
             <Card align="center" inverse color="danger">
               <CardBody>
