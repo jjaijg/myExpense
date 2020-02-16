@@ -6,6 +6,21 @@
   display: block !important;
 }
 
+.align-h {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.align-hv {
+  display: flex;
+  height: 70vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .float-rb {
   position: fixed;
   left: 88vw;
