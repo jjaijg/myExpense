@@ -15,7 +15,28 @@ import Verify from "./components/auth/Verify";
 // import Chart from "./components/Chart";
 import ExpenseDetails from "./components/ExpenseDetails";
 import InFuture from "./components/InFuture";
-
+import Main from "./components/dashboard/Main";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCheckSquare,
+  faCoffee,
+  faPalette,
+  faUser,
+  faExchangeAlt,
+  faLock,
+  faPowerOff,
+  faUserCircle
+} from "@fortawesome/free-solid-svg-icons";
+import {} from "@fortawesome/free-regular-svg-icons";
+library.add(
+  faCheckSquare,
+  faPalette,
+  faUser,
+  faExchangeAlt,
+  faLock,
+  faPowerOff,
+  faUserCircle
+);
 class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
@@ -29,8 +50,9 @@ class App extends Component {
           <div className="fix-margin"></div>
           <Switch>
             <Route path="/" exact>
-              <Home />
+              <Main />
             </Route>
+            <PrivateRoute path="/home" component={Home} />
             <PrivateRoute
               inverse
               component={Verify}
