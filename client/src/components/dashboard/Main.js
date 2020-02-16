@@ -85,15 +85,7 @@ const Main = ({ history, logout, isAuthenticated, isLoading }) => {
   return (
     <Container>
       {isLoading ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            height: "70vh"
-          }}
-        >
+        <div className="align-hv">
           <Spinner
             style={{
               width: "4rem",

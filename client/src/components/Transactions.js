@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-
+// width: "3rem", height: "3rem", marginLeft: "45%"
 import { CardColumns, Container, Spinner, Input, FormGroup } from "reactstrap";
 import { connect } from "react-redux";
 import {
@@ -56,7 +56,9 @@ export class Transactions extends Component {
     const { search } = this.state;
     const Loader =
       loading && this.props.isAuthenticated ? (
-        <Spinner style={{ width: "3rem", height: "3rem", marginLeft: "45%" }} />
+        <div className="align-h">
+          <Spinner />
+        </div>
       ) : null;
 
     let trans = filteredTransactions.length
@@ -83,7 +85,6 @@ export class Transactions extends Component {
 
     return (
       <Container>
-        {Loader}
         {this.props.isAuthenticated ? (
           <Fragment>
             <FormGroup>
@@ -96,6 +97,7 @@ export class Transactions extends Component {
                 onChange={this.filterTrans}
               />
             </FormGroup>
+            {Loader}
             {AllTransactions}
           </Fragment>
         ) : null}
