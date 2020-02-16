@@ -11,6 +11,10 @@ import {
   AUTH_ERROR,
   VERIFY_SUCCESS,
   VERIFY_FAIL,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
   CONFRIM_LOADING,
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
@@ -199,6 +203,74 @@ export const logout = () => {
   return {
     type: LOGOUT_SUCCESS
   };
+};
+
+// CHANGE USER NAME
+export const changeName = name => (dispatch, getState) => {
+  //NEW NAME
+  const body = JSON.stringify({
+    name
+  });
+  // LOAD USER
+  dispatch({
+    type: USER_LOADING
+  });
+  // CALL API
+  axios
+    .post("/api/users/changename", body, tokenConfig(getState))
+    .then(res => {
+      const { msg, status, success, id } = res.data;
+
+      dispatch(returnErrors({ msg }, status, id, success));
+      dispatch({
+        type: UPDATE_PROFILE_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_PROFILE_FAIL"
+        )
+      );
+      dispatch({
+        type: UPDATE_PROFILE_FAIL
+      });
+    });
+};
+
+// CHANGE PASSWORD
+export const changePassword = (oldpw, newpw) => (dispatch, getState) => {
+  //PREPARE OLD AND NEW PW
+  const body = JSON.stringify({
+    oldpw,
+    newpw
+  });
+  dispatch({
+    type: USER_LOADING
+  });
+  // CALL API
+  axios
+    .post("/api/users/changepassword", body, tokenConfig(getState))
+    .then(res => {
+      const { msg, status, success, id } = res.data;
+
+      dispatch(returnErrors({ msg }, status, id, success));
+      dispatch({
+        type: UPDATE_PASSWORD_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "CHANGE_PW_FAIL")
+      );
+      dispatch({
+        type: UPDATE_PASSWORD_FAIL
+      });
+    });
 };
 
 // SETUP CONFIG/HEADERS & TOKEN
