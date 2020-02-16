@@ -25,7 +25,8 @@ import {
   faExchangeAlt,
   faLock,
   faPowerOff,
-  faUserCircle
+  faUserCircle,
+  faRupeeSign
 } from "@fortawesome/free-solid-svg-icons";
 import {} from "@fortawesome/free-regular-svg-icons";
 library.add(
@@ -35,7 +36,8 @@ library.add(
   faExchangeAlt,
   faLock,
   faPowerOff,
-  faUserCircle
+  faUserCircle,
+  faRupeeSign
 );
 class App extends Component {
   componentDidMount() {
