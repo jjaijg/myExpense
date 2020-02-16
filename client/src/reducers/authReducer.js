@@ -12,7 +12,11 @@ import {
   VERIFY_LOADING,
   CONFIRM_FAIL,
   CONFRIM_LOADING,
-  CONFIRM_SUCCESS
+  CONFIRM_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
+  UPDATE_PASSWORD_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -46,7 +50,10 @@ export default (state = initialState, action) => {
         isLoading: false,
         user: action.payload
       };
+
     case REGISTER_SUCCESS:
+    case UPDATE_PASSWORD_FAIL:
+    case UPDATE_PROFILE_FAIL:
       return {
         ...state,
         isLoading: false
@@ -58,6 +65,8 @@ export default (state = initialState, action) => {
       };
     case LOGIN_SUCCESS:
     case VERIFY_SUCCESS:
+    case UPDATE_PASSWORD_SUCCESS:
+    case UPDATE_PROFILE_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,

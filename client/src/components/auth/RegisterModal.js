@@ -86,6 +86,7 @@ class RegisterModal extends Component {
 
   render() {
     const { msg, success } = this.props.error;
+    const { name, email, password, confirmPassword } = this.state;
     const alert = success ? (
       <Alert color="success">{msg.msg}</Alert>
     ) : msg.msg ? (
@@ -108,6 +109,7 @@ class RegisterModal extends Component {
                   name="name"
                   id="name"
                   placeholder="Name"
+                  value={name}
                   className="mb-3"
                   onChange={this.onChange}
                 />
@@ -118,6 +120,7 @@ class RegisterModal extends Component {
                   name="email"
                   id="email"
                   placeholder="Email"
+                  value={email}
                   className="mb-3"
                   onChange={this.onChange}
                 />
@@ -128,6 +131,7 @@ class RegisterModal extends Component {
                   name="password"
                   id="password"
                   placeholder="Password"
+                  value={password}
                   className="mb-3"
                   onChange={this.onChange}
                 />
@@ -138,6 +142,7 @@ class RegisterModal extends Component {
                   name="confirmPassword"
                   id="confirmPassword"
                   placeholder="Confirm Password"
+                  value={confirmPassword}
                   className="mb-3"
                   onChange={this.onChange}
                 />
