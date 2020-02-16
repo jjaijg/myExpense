@@ -41,6 +41,8 @@ class AppNavbar extends Component {
         </NavItem>
         <NavItem>
           <NavLink href="/">Dashboard</NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink href="/myexpense">My Expense</NavLink>
         </NavItem>
         <NavItem>
