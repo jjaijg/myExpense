@@ -6,6 +6,8 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
+const auth = require("../../middleware/auth");
+
 // User Model
 const User = require("../../models/users");
 // Token Model
@@ -251,6 +253,156 @@ router.post("/resend", (req, res) => {
           msg: err.message
         })
       );
+  });
+});
+
+// @route   POST api/users/changename
+// @desc    Change user name
+// @access  Private
+router.post("/changename", auth, (req, res) => {
+  const { name } = req.body;
+  // Simple validation
+  if (!name) {
+    return res.status(400).json({
+      id: "UPDATE_PROFILE",
+      success: false,
+      msg: "Please enter all fields!!!"
+    });
+  }
+
+  // Check if user already exist
+  User.findById(req.user.id).then(user => {
+    if (!user)
+      return res.status(404).json({
+        id: "UPDATE_PROFILE",
+        success: false,
+        msg: "User Does not Exist!"
+      });
+    if (user.name.toLowerCase() === name.toLowerCase())
+      return res.status(400).json({
+        id: "UPDATE_PROFILE",
+        success: false,
+        msg: "New name is same as old name!"
+      });
+
+    user.name = name;
+    user
+      .save()
+      .then(user => {
+        jwt.sign(
+          {
+            id: user.id
+          },
+          process.env.JWTSECRET,
+          { expiresIn: 3600 },
+          (err, jwtToken) => {
+            if (err) throw err;
+            res.json({
+              id: "UPDATE_PROFILE_SUCCESS",
+              success: true,
+              msg: "Name updated successfully.",
+              token: jwtToken,
+              user: {
+                id: user.id,
+                name: user.name,
+                email: user.email
+              }
+            });
+          }
+        );
+      })
+      .catch(err =>
+        res.status(500).json({
+          id: "UPDATE_PROFILE",
+          success: false,
+          msg: err.message
+        })
+      );
+  });
+});
+
+// @route   POST api/users/changepassword
+// @desc    Change password
+// @access  Private
+router.post("/changepassword", auth, (req, res) => {
+  const { oldpw, newpw } = req.body;
+  // Simple validation
+  if (!oldpw || !newpw) {
+    return res.status(400).json({
+      id: "CHANGE_PW",
+      success: false,
+      msg: "Please enter all fields!!!"
+    });
+  }
+
+  // Check if user already exist
+  User.findById(req.user.id).then(user => {
+    if (!user)
+      return res.status(404).json({
+        id: "CHANGE_PW",
+        success: false,
+        msg: "User Does not Exist!"
+      });
+    // Validate password
+    bcrypt.compare(oldpw, user.password).then(isMatch => {
+      if (!isMatch)
+        return res.status(400).json({
+          id: "CHANGE_PW",
+          success: false,
+          msg: "Invalid Old password"
+        });
+      // Make sure the user has been verified
+      if (!user.isVerified)
+        return res.status(401).send({
+          id: "CHANGE_PW",
+          success: false,
+          msg:
+            "Your account has not been verified. Please verify your account >>> Menu -> verify"
+        });
+
+      // gen salt and hash
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err;
+        bcrypt.hash(newpw, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+
+          // Add to db
+          user
+            .save()
+            .then(user => {
+              jwt.sign(
+                {
+                  id: user.id
+                },
+                process.env.JWTSECRET,
+                { expiresIn: 3600 },
+                (err, jwtToken) => {
+                  if (err) throw err;
+                  res.json({
+                    id: "CHANGE_PW_SUCCESS",
+                    success: true,
+                    msg: "Password changed successfully.",
+                    token: jwtToken,
+                    user: {
+                      id: user.id,
+                      name: user.name,
+                      email: user.email
+                    }
+                  });
+                }
+              );
+            })
+            .catch(err =>
+              res.status(500).json({
+                id: "CHANGE_PW",
+                success: false,
+                msg: err.message
+              })
+            );
+        });
+      });
+    });
   });
 });
 
