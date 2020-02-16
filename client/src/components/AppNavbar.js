@@ -40,6 +40,7 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
+          <NavLink href="/">Dashboard</NavLink>
           <NavLink href="/myexpense">My Expense</NavLink>
         </NavItem>
         <NavItem>
